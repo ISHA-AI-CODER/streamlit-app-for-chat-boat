@@ -2,13 +2,18 @@ import streamlit as st
 import speech_recognition as sr
 from gtts import gTTS
 import os
-import playsound
+from pydub import AudioSegment
+from pydub.playback import play
 
 def text_to_speech(text, lang='en'):
     tts = gTTS(text=text, lang=lang)
     filename = 'temp.mp3'
     tts.save(filename)
-    playsound.playsound(filename)
+    
+    # Convert mp3 to wav for playback with pydub
+    sound = AudioSegment.from_mp3(filename)
+    play(sound)
+    
     os.remove(filename)
 
 def speech_to_text():
